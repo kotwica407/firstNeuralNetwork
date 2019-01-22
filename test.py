@@ -33,7 +33,6 @@ with tf.name_scope("Optimizer") as scope:
 inp = [[1, 1], [1, 0], [0, 1], [0, 0]]
 out = [[0], [1], [1], [0]]
 epochs = 10000
-
 with tf.Session() as sess:
     tf.global_variables_initializer().run()
     mergedSummary = tf.summary.merge_all()
@@ -42,6 +41,7 @@ with tf.Session() as sess:
     for i in range(epochs):
         err, _, summaryOutput = sess.run([cost, optimizer, mergedSummary], feed_dict={Input: inp, Target: out})
         writer.add_summary(summaryOutput, i)
+        print(i)
 
     while True:
         inp = [[0, 0]]
