@@ -37,12 +37,12 @@ class DataSetGenerator:
     def get_data_paths(self):
         data_paths = []
         for label in self.data_labels:
-            img_lists=[]
+            img_lists = []
             path = join(self.data_dir, label)
             for filename in listdir(path):
                 tokens = filename.split('.')
                 if tokens[-1] == 'jpg':
-                    image_path=join(path, filename)
+                    image_path = join(path, filename)
                     img_lists.append(image_path)
             shuffle(img_lists)
             data_paths.append(img_lists)
@@ -51,7 +51,7 @@ class DataSetGenerator:
     # to save the labels its optional incase you want to restore the names from the ids
     # and you forgot the names or the order it was generated
     def save_labels(self, path):
-        pickle.dump(self.data_labels, open(path,"wb"))
+        pickle.dump(self.data_labels, open(path, "wb"))
 
     def get_mini_batches(self, batch_size=10, image_size=(200, 200), allchannel=True):
         images = []
@@ -78,7 +78,7 @@ class DataSetGenerator:
                     img = np.reshape(img, (img.shape[0], img.shape[1], 1))
                 images.append(img)
                 labels.append(label)
-            counter+=1
+            counter += 1
 
             if empty:
                 break
@@ -87,8 +87,8 @@ class DataSetGenerator:
                 yield np.array(images, dtype=np.uint8), np.array(labels, dtype=np.uint8)
                 del images
                 del labels
-                images=[]
-                labels=[]
+                images = []
+                labels = []
 
     def resizeAndPad(self, img, size):
         h, w = img.shape[:2]
@@ -109,8 +109,8 @@ class DataSetGenerator:
             new_shape[0] = w
             new_shape[1] = w
             new_shape = tuple(new_shape)
-            new_img=np.zeros(new_shape, dtype=np.uint8)
-            h_offset=int((w-h)/2)
+            new_img = np.zeros(new_shape, dtype=np.uint8)
+            h_offset = int((w-h)/2)
             new_img[h_offset:h_offset+h, :, :] = img.copy()
 
         elif aspect < 1: # vertical image
@@ -118,7 +118,7 @@ class DataSetGenerator:
             new_shape[0] = h
             new_shape[1] = h
             new_shape = tuple(new_shape)
-            new_img = np.zeros(new_shape,dtype=np.uint8)
+            new_img = np.zeros(new_shape, dtype=np.uint8)
             w_offset = int((h-w) / 2)
             new_img[:, w_offset:w_offset + w, :] = img.copy()
         else:
