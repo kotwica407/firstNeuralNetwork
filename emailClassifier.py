@@ -1,27 +1,7 @@
 import tensorflow as tf
 import datetime
-
-
-def readdata(inp, out):
-    with open('D:/learningPython/trainsets/SpamBaseData/spambase.txt', 'r') as content:
-        dane = []
-        for linia in content:
-            linia = linia.replace("\n", "")
-            linia = linia.replace("\r", "")
-            temp = tuple(linia.split(" "))
-            danet = []
-            for i in range(len(temp)):
-                danet.append(float(temp[i]))
-            dane.append(danet)
-        for example in dane:
-            inpt = []
-            for i in range(len(example)):
-                if i == (len(example)-1):
-                    out.append([example[i]])
-                else:
-                    inpt.append(example[i])
-            inp.append(inpt)
-
+from functions import readdata
+from functions import calcAttributesOfEmail
 
 inp = []
 out = []
@@ -56,7 +36,7 @@ with tf.name_scope("Optimizer") as scope:
 
     optimizer = tf.train.AdamOptimizer().minimize(cost)
 
-epochs = 10000
+epochs = 8000
 print(1)
 with tf.Session() as sess:
     tf.global_variables_initializer().run()
@@ -67,6 +47,11 @@ with tf.Session() as sess:
     for i in range(epochs):
         err, _, summaryOutput = sess.run([cost, optimizer, mergedSummary], feed_dict={Input: inp, Target: out})
         writer.add_summary(summaryOutput, i)
-        print(i)
+        print(i, err)
+
+
+    inp = calcAttributesOfEmail('D:/learningPython/testsets/Mails/Spam/Spam1.txt')
+    print("input is Spam1.txt")
+    print(sess.run([output], feed_dict={Input: inp})[0][0])
 
 
