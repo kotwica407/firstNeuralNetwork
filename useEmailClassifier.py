@@ -36,7 +36,6 @@ with tf.name_scope("Optimizer") as scope:
 
     optimizer = tf.train.AdamOptimizer().minimize(cost)
 
-epochs = 8000
 
 saver = tf.train.Saver()
 model_save_path = "./models/"
@@ -44,18 +43,21 @@ model_name = 'EmailClassifier'
 
 with tf.Session() as sess:
     tf.global_variables_initializer().run()
-    mergedSummary = tf.summary.merge_all()
-    fileName = "./summary_log/runEmailClassifier" + datetime.datetime.now().strftime("%Y-%m-%d--%H-%M-%S")
-    writer = tf.summary.FileWriter(fileName, sess.graph)
-    for i in range(epochs):
-        err, _, summaryOutput = sess.run([cost, optimizer, mergedSummary], feed_dict={Input: inp, Target: out})
-        writer.add_summary(summaryOutput, i)
-        print(i, err)
-
-    saver.save(sess, model_save_path + model_name)
+    saver.restore(sess, model_save_path + model_name)
     print("Model saved in path: " + model_save_path + model_name)
+
     inp = calcAttributesOfEmail('D:/learningPython/testsets/Mails/Spam/Spam1.txt')
     print("input is Spam1.txt")
     print(sess.run([output], feed_dict={Input: inp})[0][0])
 
+    inp = calcAttributesOfEmail('D:/learningPython/testsets/Mails/Spam/Spam2.txt')
+    print("input is Spam2.txt")
+    print(sess.run([output], feed_dict={Input: inp})[0][0])
+
+    i = 1
+    while i <= 7:
+        inp = calcAttributesOfEmail('D:/learningPython/testsets/Mails/Spam/Spam' + str(i) + '.txt')
+        print("input is Spam" + str(i) + ".txt")
+        print(sess.run([output], feed_dict={Input: inp})[0][0])
+        i += 1
 
