@@ -5,6 +5,13 @@ words = ["make", "address", "all", "3d", "our", "over", "remove", "internet", "o
 
 chars = [';', '(', '[', '!', '$', '#']
 
+
+def valuesOfAttribute(list, n):
+    x = []
+    for i in range(len(list)):
+        x.append(list[i][n])
+    return x
+
 def longestCapitalSequence(text):
     count = 0
     sequence = []
@@ -123,6 +130,7 @@ def calcAttributesOfEmail(dir):
     return attributes
 
 
-attributes = calcAttributesOfEmail('D:/learningPython/testsets/Mails/Spam/Spam1.txt')
+#attributes = calcAttributesOfEmail('D:/learningPython/testsets/Mails/Spam/Spam1.txt')
 
+print(len(words))
 

@@ -14,14 +14,14 @@ with tf.name_scope("Input_Layer") as scope:
     inputBias = tf.Variable(initial_value=tf.random_normal(shape=[1], stddev=0.4, dtype='float', name="input_bias"))
 
 with tf.name_scope("Hidden_Layer") as scope:
-    weights = tf.Variable(initial_value=tf.random_normal(shape=[57, 3], stddev=0.4, dtype='float', name="hidden_weights"))
+    weights = tf.Variable(initial_value=tf.random_normal(shape=[57, 30], stddev=0.4, dtype='float', name="hidden_weights"))
     hiddenBias = tf.Variable(initial_value=tf.random_normal(shape=[1], stddev=0.4, dtype='float', name="hidden_bias"))
     tf.summary.histogram(name="Weights_1", values=weights)
     hiddenLayer = tf.matmul(Input, weights) + inputBias
     hiddenLayer = tf.sigmoid(hiddenLayer, name="hidden_layer_activation")
 
 with tf.name_scope("Output_Layer") as scope:
-    outputWeigths = tf.Variable(initial_value=tf.random_normal(shape=[3, 1], stddev=0.4, dtype='float', name="output_weights"))
+    outputWeigths = tf.Variable(initial_value=tf.random_normal(shape=[30, 1], stddev=0.4, dtype='float', name="output_weights"))
     tf.summary.histogram(name="Weights_2", values=outputWeigths)
     output = tf.matmul(hiddenLayer, outputWeigths) + hiddenBias
     output = tf.sigmoid(output, name="output_activation")
